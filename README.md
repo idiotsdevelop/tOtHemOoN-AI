@@ -1,5 +1,10 @@
 # tOtHemOoN-AI
 
+### requirements
+```bash
+pip install -r requirements.txt
+```
+
 ### GET Coin Data from UPBIT([https://github.com/sharebook-kr/pyupbit](https://github.com/sharebook-kr/pyupbit))
 
 ```bash
