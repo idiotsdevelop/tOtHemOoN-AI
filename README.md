@@ -1,6 +1,6 @@
 # tOtHemOoN-AI
 
-### requirements
+### Requirements
 ```bash
 pip install -r requirements.txt
 ```
