@@ -104,7 +104,7 @@ if __name__ == '__main__' :
 
 
     ticker = args.ticker
-    interval = args.minute10
+    interval = args.interval
     count, interval_term = calc_count(interval)
 
     current_year = datetime.datetime.today().year
