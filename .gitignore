@@ -2,3 +2,5 @@
 *.csv
 *.zip
 .ipynb_checkpoints/test-checkpoint.ipynb
+checkpoints/checkpoint
+checkpoints/ckeckpointer.ckpt.data-00000-of-00001
