@@ -14,9 +14,13 @@ from sklearn.model_selection import train_test_split
 
 
 class Data_preprocess():
-    def __init__(self, ticker, interval, to, count):
-        self.data, self.label, self.dataset = self.preprocess(
-            pyupbit.get_ohlcv(ticker=ticker, interval=interval, to=to, count=count))
+    def __init__(self, args):
+        if args.data is None :
+            print(args)
+            self.data, self.label, self.dataset = self.preprocess(
+                pyupbit.get_ohlcv(ticker=args.ticker, interval=args.interval, to=args.to, count=args.count))
+        else :
+            self.data, self.label, self.dataset = self.csv_parsing(args.data)
 
     def MinMax(self, dataset_df):
         norm = MinMaxScaler()
@@ -75,6 +79,20 @@ class Data_preprocess():
         self.norm_dataset['after10'] = self.add_after10(self.norm_dataset)
 
         return self.norm_dataset.drop(columns=['after10']), self.norm_dataset['after10'], dataset_df
+
+    def csv_parsing(self, data_path):
+        merge_df = pd.DataFrame()
+        data_folders = glob(os.path.join(data_path, '*'))
+
+        for data_folder in tqdm(data_folders):
+            data_csvs = glob(os.path.join(data_folder,'*.csv'))
+
+            for data_csv in data_csvs :
+                csv_df = pd.read_csv(data_csv).drop(columns=["Unnamed: 0"])
+                merge_df = pd.concat([merge_df, csv_df], ignore_index=True)
+
+        return self.preprocess(merge_df)
+
 
     # dataset에 window 적용
     def windowed_dataset(self, data, label, window_size, batch_size):
