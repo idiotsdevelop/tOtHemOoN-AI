@@ -26,7 +26,7 @@ class Custom_Model():
 
     def compile_model(self, model):
         loss = Huber()
-        optimizer = Adam(lr=self.args.lr)
+        optimizer = Adam(learning_rate=self.args.lr)
 
         model.compile(loss=loss, optimizer=optimizer, metrics=['mse'])
         return model

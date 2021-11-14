@@ -18,8 +18,8 @@ def train(model, train_data, val_data, callbacks) :
 if __name__ == '__main__' :
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data', type=str, required=True,
-                        help='data path')
+    # parser.add_argument('--data', type=str, required=True,
+    #                     help='data path')
     parser.add_argument('--save_path', type=str, default='./checkpoints',
                         help='path that will be saved the training checkpoint')
     parser.add_argument('--val_size', type=int, default=0.1,
@@ -43,7 +43,6 @@ if __name__ == '__main__' :
     init_model = models.Custom_Model((WINDOW_SIZE,FEATURES), args)
     model = init_model.model
     model = init_model.compile_model(model)
-
     callbacks = init_model.callback()
 
     ticker = 'KRW-BTC'
@@ -53,16 +52,16 @@ if __name__ == '__main__' :
 
     processed_data =  dataset.Data_preprocess(ticker, interval, to, count)
 
-    train_data, train_label, val_data, val_label = train_test_split(
+    train_data, val_data, train_label, val_label = train_test_split(
         processed_data.data,
         processed_data.label,
         test_size=0.1,
         random_state=0,
         shuffle=False)
 
-    train_dataset = processed_data.windowed_dataset(train_data, train_label ,WINDOW_SIZE, FEATURES)
-    validation_dataset = processed_data.windowed_dataset(val_data, val_label ,WINDOW_SIZE, FEATURES)
+    train_dataset = processed_data.windowed_dataset(train_data, train_label ,WINDOW_SIZE, args.batch)
+    validation_dataset = processed_data.windowed_dataset(val_data, val_label ,WINDOW_SIZE, args.batch)
 
 
-    train(model, train_data, validation_dataset, callbacks)
+    train(model, train_dataset, validation_dataset, callbacks)
 
