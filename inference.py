@@ -27,7 +27,7 @@ def latest_data(ticker, coming_10m):
 
 
 def add_data(processed_data, latest_data) :
-    _, _, _ = processed_data.preprocess(latest_data, latest=True)
+    processed_data.data, processed_data.label, processed_data.dataset = processed_data.preprocess(latest_data, latest=True)
 
 
 def calc_UpDown(pred):
@@ -54,6 +54,14 @@ if __name__ == '__main__' :
     parser = argparse.ArgumentParser()
     parser.add_argument('--weight', type=str, default='./checkpoints/ckeckpointer.ckpt',
                         help='model load')
+    parser.add_argument('--ticker', type=str, default='KRW-BTC',
+                        help='which coin do you use')
+    parser.add_argument('--interval', type=str, default='minute10',
+                        help='which time interval do you use')
+    parser.add_argument('--to', type=str, default=datetime.datetime.now().strftime('%Y-%m-%d %H:%M'),
+                        help='which date do you want to start downloading from upbit')
+    parser.add_argument('--count', type=int, default=1000,
+                        help='How many data do you want to download from upbit')
 
     args = parser.parse_args()
 
@@ -61,26 +69,23 @@ if __name__ == '__main__' :
     FEATURES = 6
     BATCH_SIZE = 1
 
+    print("==== Build MODEL ====")
     init_model = models.Custom_Model((WINDOW_SIZE,FEATURES), args)
     model = init_model.model
     model = init_model.load_model(args.weight)
 
-    ticker = 'KRW-BTC'
-    interval = 'minute10'
-    to = f'2021-11-14 18:10'# str(current_time())
-    count = 1000
 
-    print("\n\nParsing Data 1000EA \n\n")
-    processed_data = dataset.Data_preprocess(ticker, interval, to, count)
+    print("==== Data Parsing ====")
+    processed_data = dataset.Data_preprocess(args)
 
     # ## 다음 10분 체크 및 해당 시간대 데이터 가져오기.
     # latest_dataset = latest_data(ticker, comming_10m(to))
     # add_data(processed_data, latest_data)
 
-    print("\n\nInference\n\n")
+    print("==== Inference ====")
     pred = inference(model, processed_data, WINDOW_SIZE, BATCH_SIZE)
 
-    print("\n\nMake a Decision\n\n")
+    print("==== Make a Decision ====")
     answer = calc_UpDown(pred)
 
     if  answer == 0 :

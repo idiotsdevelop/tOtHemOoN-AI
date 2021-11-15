@@ -4,3 +4,6 @@
 .ipynb_checkpoints/test-checkpoint.ipynb
 checkpoints/checkpoint
 checkpoints/ckeckpointer.ckpt.data-00000-of-00001
+*.pb
+*.data-00000-of-00001
+*.index
