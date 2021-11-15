@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 
 class Data_preprocess():
     def __init__(self, args):
-        if args.data is None :
+        if not hasattr(args, 'data') or args.data is None:
             print(args)
             self.data, self.label, self.dataset = self.preprocess(
                 pyupbit.get_ohlcv(ticker=args.ticker, interval=args.interval, to=args.to, count=args.count))
