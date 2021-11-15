@@ -49,6 +49,8 @@ def inference(lstm_model, processed_data, window_size, batch_size):
     pred = pred[:, 0]
 
     return pred
+
+
 if __name__ == '__main__' :
 
     parser = argparse.ArgumentParser()
