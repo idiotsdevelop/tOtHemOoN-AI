@@ -50,7 +50,7 @@ data
 ### Use upbit API
 
 ```bash
-python training.py --ticker='KRW-BTC' --interval='minute10' --to='2021-11-11 23:11' --count 1000
+python training.py --ticker=KRW-BTC --interval=minute10 --to="2021-11-11 23:11" --count 1000
 ```
 
 - `ticker` :  Which coin do you want to use in training. Default is **KRW-BTC.**
