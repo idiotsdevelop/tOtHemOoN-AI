@@ -7,3 +7,4 @@ checkpoints/ckeckpointer.ckpt.data-00000-of-00001
 *.pb
 *.data-00000-of-00001
 *.index
+notebook/checkpoints/BiLSTM/checkpoint

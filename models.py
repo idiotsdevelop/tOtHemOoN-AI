@@ -13,6 +13,15 @@ class Custom_Model():
         self.args = args
         self.model = self.build_model(input_shape)
 
+    def build_BiLSTM_model(self, input_shape: tuple):
+        input = Input(shape=input_shape)
+        x = Bidirectional(LSTM(128, return_sequences=True, activation='tanh', dropout=0.3))(input)
+        x = Bidirectional(LSTM(64, return_sequences=True, activation='tanh', dropout=0.3))(x)
+        x = Bidirectional(LSTM(32, return_sequences=True, activation='tanh', dropout=0.3))(x)
+        x = GlobalAveragePooling1D()(x)
+        output = Dense(1)(x)
+        model = Model(input, output)
+        return model
 
     def build_model(self, input_shape: tuple):
         input = Input(shape=input_shape)
