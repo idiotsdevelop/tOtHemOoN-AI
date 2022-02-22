@@ -1,6 +1,5 @@
 Flask==2.0.2
 pandas==1.1.5
 sklearn==0.0
-tensorflow==2.6.1
 upbit==1.0.0
 tqdm==4.62.3
